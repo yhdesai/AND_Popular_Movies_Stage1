@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="data_not_available_are_you_network_connection">Data not available.\nCheck you network connection.</string>
+    <string name="image_poster">Image Poster</string>
+
+    <string name="sort">Sort By</string>
+    <string name="popularity">Popularity</string>
+    <string name="top_rated">Top rated</string>
+    <string name="retry">Retry</string>
+    <string name="movie_poster">Movie Poster</string>
+    <string name="genre">Genre :</string>
+    <string name="rating">Rating :</string>
+    <string name="overview">Overview</string>
+
+</resources>
