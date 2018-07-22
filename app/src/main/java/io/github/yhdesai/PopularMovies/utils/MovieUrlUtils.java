@@ -10,13 +10,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+import io.github.yhdesai.PopularMovies.BuildConfig;
+import io.github.yhdesai.PopularMovies.Constant;
+
+import static io.github.yhdesai.PopularMovies.Constant.MOVIE_BASE_URL;
+
 
 public class MovieUrlUtils {
-//TODO Add the API KEY here
-    public static final String API_KEY = "#0#0#0#0#0#0#0#0#0#0#0";
 
-    private static final String MOVIE_QUERY_API = "api_key";
-    private static final String MOVIE_BASE_URL = "https://api.themoviedb.org/3/movie/";
 
 
     public static URL buildUrl(String movieUrl) {
@@ -24,7 +25,7 @@ public class MovieUrlUtils {
         Uri uri = Uri.parse(MOVIE_BASE_URL)
                 .buildUpon()
                 .appendPath(movieUrl)
-                .appendQueryParameter(MOVIE_QUERY_API, API_KEY)
+                .appendQueryParameter(Constant.MOVIE_QUERY_API, BuildConfig.ApiKey)
                 .build();
         URL url = null;
         try {

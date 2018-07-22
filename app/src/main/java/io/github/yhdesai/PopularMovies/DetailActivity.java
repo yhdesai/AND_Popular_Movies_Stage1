@@ -8,10 +8,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
-
-    private static final String URL_IMAGE_PATH = "http://image.tmdb.org/t/p/w185";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +30,7 @@ public class DetailActivity extends AppCompatActivity {
         String releaseFinal = release.substring(0, 4);
 
         Picasso.with(this)
-                .load(URL_IMAGE_PATH.concat(poster))
+                .load(Constant.URL_IMAGE_PATH.concat(poster))
                 .into(iv_poster_detail);
         tv_title.setText(title);
         tv_plot.setText(plot);

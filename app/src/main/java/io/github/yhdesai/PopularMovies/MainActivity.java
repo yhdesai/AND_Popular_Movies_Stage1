@@ -1,6 +1,5 @@
 package io.github.yhdesai.PopularMovies;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +29,9 @@ import io.github.yhdesai.PopularMovies.adapter.MovieAdapter;
 import io.github.yhdesai.PopularMovies.model.Movie;
 import io.github.yhdesai.PopularMovies.utils.MovieJsonUtils;
 import io.github.yhdesai.PopularMovies.utils.MovieUrlUtils;
+
+import static io.github.yhdesai.PopularMovies.Constant.popular;
+import static io.github.yhdesai.PopularMovies.Constant.topRated;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieClickListener {
 
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
 
-    @SuppressLint("StaticFieldLeak")
+
     private class MovieFetchTask extends AsyncTask<String, Void, Movie[]> {
 
         @Override
@@ -186,17 +188,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (!isOnline()) return false;
-        if (MovieUrlUtils.API_KEY.equals("")) return false;
+        if (BuildConfig.ApiKey.equals("")) return false;
         int id = item.getItemId();
         switch (id) {
             case R.id.popularity:
-                queryMovie = "popular";
+                queryMovie = popular;
                 new MovieFetchTask().execute(queryMovie);
                 nameSort = "Popular Movies";
                 setTitle(nameSort);
                 break;
             case R.id.top_rated:
-                queryMovie = "top_rated";
+                queryMovie = topRated;
                 new MovieFetchTask().execute(queryMovie);
                 nameSort = "Top Rated Movies";
                 setTitle(nameSort);

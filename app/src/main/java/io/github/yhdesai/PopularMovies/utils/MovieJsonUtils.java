@@ -6,17 +6,19 @@ import org.json.JSONObject;
 
 import io.github.yhdesai.PopularMovies.model.Movie;
 
+import static io.github.yhdesai.PopularMovies.Constant.MOVIE_PLOT;
+import static io.github.yhdesai.PopularMovies.Constant.MOVIE_POSTER;
+import static io.github.yhdesai.PopularMovies.Constant.MOVIE_RATING;
+import static io.github.yhdesai.PopularMovies.Constant.MOVIE_RELEASE_DATE;
+import static io.github.yhdesai.PopularMovies.Constant.MOVIE_RESULTS;
+import static io.github.yhdesai.PopularMovies.Constant.MOVIE_TITLE;
+import static io.github.yhdesai.PopularMovies.Constant.Movie_Backdrop;
+
 
 public class MovieJsonUtils {
 
 
-    private static final String MOVIE_RESULTS = "results";
-    private static final String MOVIE_TITLE = "title";
-    private static final String MOVIE_POSTER = "poster_path";
-    private static final String MOVIE_PLOT = "overview";
-    private static final String MOVIE_RATING = "vote_average";
-    private static final String MOVIE_RELEASE_DATE = "release_date";
-    private static final String Movie_Backdrop="backdrop_path";
+
 
 
 

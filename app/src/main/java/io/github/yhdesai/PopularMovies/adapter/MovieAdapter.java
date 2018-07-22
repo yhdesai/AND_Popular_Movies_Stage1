@@ -13,11 +13,13 @@ import com.squareup.picasso.Picasso;
 import io.github.yhdesai.PopularMovies.R;
 import io.github.yhdesai.PopularMovies.model.Movie;
 
+import static io.github.yhdesai.PopularMovies.Constant.URL_IMAGE_PATH;
+
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder> {
 
 
-    private static final String URL_IMAGE_PATH = "http://image.tmdb.org/t/p/w185";
+
     private final Context mContext;
     private Movie[] mMovie = null;
     private final MovieClickListener mMovieClickListener;

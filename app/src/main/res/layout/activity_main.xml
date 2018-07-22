@@ -12,10 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_centerInParent="true"
         android:visibility="gone" />
 
 
@@ -23,10 +20,7 @@
         android:id="@+id/tv_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+
         android:text="@string/data_not_available_are_you_network_connection"
         android:textSize="18sp"
         android:visibility="gone" />
@@ -38,6 +32,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_below="@+id/tv_error"
         android:background="@drawable/rect_detail"
         android:onClick="clickRetry"
         android:text="@string/retry"

@@ -11,8 +11,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField 'String', "ApiKey", Movie_ApiKey
+        }
         release {
             minifyEnabled false
+            buildConfigField 'String', "ApiKey", Movie_ApiKey
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
