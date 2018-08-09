@@ -19,9 +19,6 @@ public class Movie {
         this.backdropPoster = backdropPoster;
     }
 
-
-
-
     public String getmTitle() {
         return mTitle;
     }
@@ -61,4 +58,6 @@ public class Movie {
     public void setmReleaseDate(String mReleaseDate) {
         this.mReleaseDate = mReleaseDate;
     }
+
+
 }

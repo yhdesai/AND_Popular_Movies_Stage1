@@ -72,6 +72,12 @@
                 android:id="@+id/id_movie_overview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play Trailer"
+                android:onClick="trailer"/>
         </LinearLayout>
 
     </LinearLayout>

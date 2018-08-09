@@ -14,6 +14,7 @@ import io.github.yhdesai.PopularMovies.BuildConfig;
 import io.github.yhdesai.PopularMovies.Constant;
 
 import static io.github.yhdesai.PopularMovies.Constant.MOVIE_BASE_URL;
+import static io.github.yhdesai.PopularMovies.Constant.MOVIE_TEMP_URL;
 
 
 public class MovieUrlUtils {
@@ -27,6 +28,7 @@ public class MovieUrlUtils {
                 .appendPath(movieUrl)
                 .appendQueryParameter(Constant.MOVIE_QUERY_API, BuildConfig.ApiKey)
                 .build();
+        Log.d("url", uri.toString());
         URL url = null;
         try {
             url = new URL(uri.toString());
