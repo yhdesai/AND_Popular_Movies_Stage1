@@ -27,7 +27,7 @@ import java.net.URL;
 
 import io.github.yhdesai.PopularMovies.adapter.MovieAdapter;
 import io.github.yhdesai.PopularMovies.model.Movie;
-import io.github.yhdesai.PopularMovies.utils.MovieJsonUtils;
+import io.github.yhdesai.PopularMovies.utils.JsonUtils;
 import io.github.yhdesai.PopularMovies.utils.MovieUrlUtils;
 
 import static io.github.yhdesai.PopularMovies.Constant.popular;
@@ -118,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         intent.putExtra("rating", mMovie[position].getmRating());
         intent.putExtra("releaseDate", mMovie[position].getmReleaseDate());
         intent.putExtra("backdropimage", mMovie[position].getBackdropPoster());
+        intent.putExtra("id", mMovie[position].getmId());
+        Log.i("mMovie class",mMovie[position].getClass().toString());
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             try {
                 String movieResponse = MovieUrlUtils.getResponseFromHttp(movieUrl);
-                mMovie = MovieJsonUtils.parseJsonMovie(movieResponse);
+                mMovie = JsonUtils.parseJsonMovie(movieResponse);
             } catch (Exception e) {
 
                 e.printStackTrace();

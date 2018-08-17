@@ -3,7 +3,7 @@ package io.github.yhdesai.PopularMovies.model;
 
 public class Movie {
 
-    private int mId;
+    private String mId;
     private String mTitle;
     private String mMoviePoster;
     private String mPlot;
@@ -60,4 +60,11 @@ public class Movie {
     }
 
 
+    public String getmId() {
+        return mId;
+    }
+
+    public void setmId(String mId) {
+        this.mId = mId;
+    }
 }

@@ -13,19 +13,19 @@ import java.util.Scanner;
 import io.github.yhdesai.PopularMovies.BuildConfig;
 import io.github.yhdesai.PopularMovies.Constant;
 
-import static io.github.yhdesai.PopularMovies.Constant.MOVIE_TEMP_URL;
+import static io.github.yhdesai.PopularMovies.Constant.MOVIE_BASE_URL;
 
 
 
     public class VideoUrlUtils {
 
-
-
         public static URL buildUrl(String movieUrl) {
+            Log.d("movieURl", movieUrl);
 
-            Uri uri = Uri.parse(MOVIE_TEMP_URL)
+            Uri uri = Uri.parse(MOVIE_BASE_URL)
                     .buildUpon()
                     .appendPath(movieUrl)
+                    .appendPath("videos")
                     .appendQueryParameter(Constant.MOVIE_QUERY_API, BuildConfig.ApiKey)
                     .build();
             Log.d("url", uri.toString());
@@ -39,21 +39,21 @@ import static io.github.yhdesai.PopularMovies.Constant.MOVIE_TEMP_URL;
             return url;
         }
 
-        public static String getResponseFromHttp(URL url) throws IOException {
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        public static String getResponseFromHttpVideo(URL url) throws IOException {
+            HttpURLConnection aurlConnection = (HttpURLConnection) url.openConnection();
             try {
-                InputStream inputStream = urlConnection.getInputStream();
-                Scanner scanner = new Scanner(inputStream);
-                scanner.useDelimiter("\\A");
+                InputStream ainputStream = aurlConnection.getInputStream();
+                Scanner ascanner = new Scanner(ainputStream);
+                ascanner.useDelimiter("\\A");
 
-                boolean hasInput = scanner.hasNext();
+                boolean hasInput = ascanner.hasNext();
                 if (hasInput) {
-                    return scanner.next();
+                    return ascanner.next();
                 } else {
                     return null;
                 }
             } finally {
-                urlConnection.disconnect();
+                aurlConnection.disconnect();
             }
         }
     }

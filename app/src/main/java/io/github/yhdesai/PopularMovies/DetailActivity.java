@@ -1,8 +1,11 @@
 package io.github.yhdesai.PopularMovies;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,22 +18,22 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
-import io.github.yhdesai.PopularMovies.model.MovieVideo;
-import io.github.yhdesai.PopularMovies.utils.MovieJsonUtils;
+import io.github.yhdesai.PopularMovies.model.MovieTrailer;
+import io.github.yhdesai.PopularMovies.utils.JsonUtils;
 import io.github.yhdesai.PopularMovies.utils.VideoUrlUtils;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private MovieVideo[] mVideo = null;
+    private MovieTrailer mTrailer = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
 
-
         ImageView iv_poster_detail = findViewById(R.id.id_small_movie_poster);
-        TextView tv_title= findViewById(R.id.id_movie_name);
+        TextView tv_title = findViewById(R.id.id_movie_name);
         TextView tv_plot = findViewById(R.id.id_movie_overview);
         TextView tv_rating = findViewById(R.id.id_user_rating);
         TextView tv_release = findViewById(R.id.movie_genre);
@@ -41,6 +44,7 @@ public class DetailActivity extends AppCompatActivity {
         String plot = getIntent().getStringExtra("plot");
         String rating = getIntent().getStringExtra("rating");
         String release = getIntent().getStringExtra("releaseDate");
+        String id = getIntent().getStringExtra("id");
         String releaseFinal = release.substring(0, 4);
 
         Picasso.with(this)
@@ -55,12 +59,15 @@ public class DetailActivity extends AppCompatActivity {
 
     public void trailer(View view) {
 
-        new VideoFetchTask().execute("videos");
-        
+        new TrailerFetchTask().execute(getIntent().getStringExtra("id"));
+
+    }
+
+    public void reviews(View view) {
     }
 
 
-    private class VideoFetchTask extends AsyncTask<String, Void, MovieVideo[]> {
+    private class TrailerFetchTask extends AsyncTask<String, Void, MovieTrailer> {
 
         @Override
         protected void onPreExecute() {
@@ -69,42 +76,37 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         @Override
-        protected MovieVideo[] doInBackground(String... strings) {
+        protected MovieTrailer doInBackground(String... strings) {
             if (!isOnline()) {
                 errorNetworkApi();
                 return null;
             }
-            URL movieUrl = VideoUrlUtils.buildUrl(strings[0]);
-            Log.d("movieURL", movieUrl.toString());
+            Log.d("first element", strings[0]);
+
+            URL trailerUrl = VideoUrlUtils.buildUrl(strings[0]);
+
+            Log.d("movieURL", trailerUrl.toString());
 
             try {
-                String movieResponse = VideoUrlUtils.getResponseFromHttp(movieUrl);
-                Log.d("video response", movieResponse);
-                mVideo = MovieJsonUtils.parseJsonVideo(movieResponse);
-                Log.d("mVideo", mVideo.toString());
+                String trailerResponse = VideoUrlUtils.getResponseFromHttpVideo(trailerUrl);
+                Log.d("trailer response", trailerResponse);
+                mTrailer = JsonUtils.parseJsonTrailer(trailerResponse);
+                Log.d("mTrailer", mTrailer.toString());
+
             } catch (Exception e) {
 
                 e.printStackTrace();
             }
-            return mVideo;
+            return mTrailer;
         }
 
+
         @Override
-        protected void onPostExecute(MovieVideo[] video) {
-            new VideoFetchTask().cancel(true);
+        protected void onPostExecute(MovieTrailer video) {
+            new TrailerFetchTask().cancel(true);
             if (video != null) {
-
-
-
-              Log.d("YAY", video.toString());
-
-              /*  mRecyclerView.setVisibility(View.VISIBLE);*/
-               /* hideProgressAndTextview();*/
-
-             /*   mMovie = movies;
-                MovieAdapter movieAdapter = new MovieAdapter(movies, DetailActivity.this, MainActivity.this);
-                mRecyclerView.setAdapter(movieAdapter);*/
-
+                String key = video.getvKey();
+                watchYoutubeVideo(DetailActivity.this, key);
             } else {
                 Log.e("detail", "Problems with adapter");
             }
@@ -121,9 +123,17 @@ public class DetailActivity extends AppCompatActivity {
 
 
     private void errorNetworkApi() {
-        /*progressBar.setVisibility(View.INVISIBLE);
-        tv_error.setVisibility(View.VISIBLE);
-        btn_retry.setVisibility(View.VISIBLE);*/
+    }
+
+    public static void watchYoutubeVideo(Context context, String id) {
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            context.startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            context.startActivity(webIntent);
+        }
     }
 
 }
