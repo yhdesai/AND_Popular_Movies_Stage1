@@ -58,9 +58,9 @@ public class ReviewActivity extends AppCompatActivity {
 
 
             try {
-                String trailerResponse = ReviewUrlUtils.getResponseFromHttpVideo(reviewUrl);
-                Log.d("trailer response", trailerResponse);
-                mReview = JsonUtils.parseJsonReview(trailerResponse);
+                String reviewReponse = ReviewUrlUtils.getResponseFromHttpVideo(reviewUrl);
+                Log.d("trailer response", reviewReponse);
+                mReview = JsonUtils.parseJsonReview(reviewReponse);
                 Log.d("mTrailer", mReview.toString());
 
             } catch (Exception e) {
@@ -76,8 +76,8 @@ public class ReviewActivity extends AppCompatActivity {
             new ReviewsFetchTask().cancel(true);
             if (review != null) {
 
-                ReviewAdapter reviewAdapter = new ReviewAdapter(review, ReviewActivity.this, ReviewActivity.this);
-                mRecyclerView.setAdapter(reviewAdapter);
+                ReviewAdapter movieAdapter = new ReviewAdapter(review, ReviewActivity.this, (ReviewAdapter.MovieClickListener) ReviewActivity.this);
+                mRecyclerView.setAdapter(movieAdapter);
 
                 Log.d("review result", review.toString());
             } else {

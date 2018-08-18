@@ -1,43 +1,85 @@
 package io.github.yhdesai.PopularMovies.adapter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-
-import java.util.List;
+import com.squareup.picasso.Picasso;
 
 import io.github.yhdesai.PopularMovies.R;
+import io.github.yhdesai.PopularMovies.model.Movie;
 import io.github.yhdesai.PopularMovies.model.MovieReview;
 
-public class ReviewAdapter extends ArrayAdapter<MovieReview> {
-    public ReviewAdapter(Context context, int resource, List<MovieReview> objects) {
-        super(context, resource, objects);
+import static io.github.yhdesai.PopularMovies.Constant.URL_IMAGE_PATH;
+
+
+public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MovieHolder> {
+
+
+
+    private final Context mContext;
+    private MovieReview[] mMovieReview = null;
+    private final MovieClickListener mMovieClickListener;
+
+
+    public ReviewAdapter(MovieReview[] movies, Context context, MovieClickListener movieClickListener) {
+        mMovieReview = movies;
+        mContext = context;
+        mMovieClickListener = movieClickListener;
+    }
+
+
+    @NonNull
+    @Override
+    public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.list_item_movie_poster, parent, false);
+
+        return new MovieHolder(view);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.item_review, parent, false);
+    public void onBindViewHolder(MovieHolder holder, int position) {
+
+      /*  Picasso.with(mContext)
+                .load(URL_IMAGE_PATH.concat(mMovieReview[position].getmMoviePoster()))
+                .fit()
+                .into(holder.imageViewHolder);*/
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mMovieReview.length;
+    }
+
+    public interface MovieClickListener {
+        void onClickMovie(int position);
+    }
+
+    class MovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        final ImageView imageViewHolder;
+
+
+        MovieHolder(View itemView) {
+            super(itemView);
+
+
+            imageViewHolder = itemView.findViewById(R.id.iv_list_item_poster);
+            imageViewHolder.setOnClickListener(this);
         }
 
-        TextView author = convertView.findViewById(R.id.author);
-        TextView content = convertView.findViewById(R.id.content);
-        TextView id = convertView.findViewById(R.id.id);
-        TextView url = convertView.findViewById(R.id.url);
-
-        MovieReview message = getItem(position);
-
-        author.setText(message.getrAuthor());
-        content.setText(message.getrContent());
-        id.setText(message.getrId());
-        url.setText(message.getrUrl());
-
-
-        return convertView;
+        @Override
+        public void onClick(View view) {
+            int clickPosition = getAdapterPosition();
+            mMovieClickListener.onClickMovie(clickPosition);
+        }
     }
-}
 
+
+}

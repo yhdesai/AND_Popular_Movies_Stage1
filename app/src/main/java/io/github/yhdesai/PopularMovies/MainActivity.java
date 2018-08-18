@@ -210,5 +210,3 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
 }
-
-
