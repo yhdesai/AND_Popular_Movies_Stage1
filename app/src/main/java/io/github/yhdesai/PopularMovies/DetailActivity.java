@@ -18,12 +18,16 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 
+import io.github.yhdesai.PopularMovies.adapter.MovieAdapter;
+import io.github.yhdesai.PopularMovies.model.MovieReview;
 import io.github.yhdesai.PopularMovies.model.MovieTrailer;
 import io.github.yhdesai.PopularMovies.utils.JsonUtils;
+import io.github.yhdesai.PopularMovies.utils.ReviewUrlUtils;
 import io.github.yhdesai.PopularMovies.utils.VideoUrlUtils;
 
 public class DetailActivity extends AppCompatActivity {
 
+    private MovieReview[] mReview = null;
     private MovieTrailer mTrailer = null;
 
     @Override
@@ -63,8 +67,61 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     public void reviews(View view) {
+        new ReviewsFetchTask().execute(getIntent().getStringExtra("id"));
     }
+
+    private class ReviewsFetchTask extends AsyncTask<String, Void, MovieReview[]> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected MovieReview[] doInBackground(String... strings) {
+            if (!isOnline()) {
+                errorNetworkApi();
+                return null;
+            }
+            Log.d("first element", strings[0]);
+
+            URL reviewUrl = ReviewUrlUtils.buildUrl(strings[0]);
+
+
+            try {
+                String trailerResponse = ReviewUrlUtils.getResponseFromHttpVideo(reviewUrl);
+                Log.d("trailer response", trailerResponse);
+                mReview = JsonUtils.parseJsonReview(trailerResponse);
+                Log.d("mTrailer", mReview.toString());
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+            return mReview;
+        }
+
+
+        @Override
+        protected void onPostExecute(MovieReview[] review) {
+            new DetailActivity.TrailerFetchTask().cancel(true);
+            if (review != null) {
+                //TODO open new activity and show the result there
+                //ReviewAdapter reviewAdapter = new ReviewAdapter(review, DetailActivity.this, DetailActivity.this);
+               // mRecyclerView.setAdapter(reviewAdapter);
+                Log.d("review result", review.toString());
+            } else {
+                Log.e("detail", "Problems with adapter");
+            }
+        }
+
+    }
+
+
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
     private class TrailerFetchTask extends AsyncTask<String, Void, MovieTrailer> {

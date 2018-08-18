@@ -31,5 +31,12 @@ public class Constant {
     public static final String VIDEO_SIZE = "size";
     public static final String VIDEO_TYPE = "type";
 
+    public static final String REVIEW_AUTHOR = "author";
+    public static final String REVIEW_CONTENT="content";
+    public static final String REVIEW_ID="id";
+    public static final String REVIEW_URL="url";
+
+
+
 
 }

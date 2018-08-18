@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             if (movies != null) {
                 mRecyclerView.setVisibility(View.VISIBLE);
                 hideProgressAndTextview();
-                mMovie = movies;
+                //mMovie = movies;
                 MovieAdapter movieAdapter = new MovieAdapter(movies, MainActivity.this, MainActivity.this);
                 mRecyclerView.setAdapter(movieAdapter);
 
