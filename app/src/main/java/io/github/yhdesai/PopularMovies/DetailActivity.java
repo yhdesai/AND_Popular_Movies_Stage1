@@ -69,7 +69,9 @@ public class DetailActivity extends AppCompatActivity {
 
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     public void reviews(View view) {
-        new ReviewsFetchTask().execute(getIntent().getStringExtra("id"));
+       // new ReviewsFetchTask().execute(getIntent().getStringExtra("id"));
+        Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
+        startActivity(intent);
     }
 
     private class ReviewsFetchTask extends AsyncTask<String, Void, MovieReview[]> {
