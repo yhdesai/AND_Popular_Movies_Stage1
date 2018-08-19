@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.github.yhdesai.PopularMovies.adapter.MovieAdapter;
@@ -20,23 +21,26 @@ import io.github.yhdesai.PopularMovies.adapter.ReviewAdapter;
 import io.github.yhdesai.PopularMovies.model.MovieReview;
 import io.github.yhdesai.PopularMovies.utils.JsonUtils;
 import io.github.yhdesai.PopularMovies.utils.ReviewUrlUtils;
-
+//TODO redesign the item_review activity
 public class ReviewActivity extends AppCompatActivity {
 
     private MovieReview[] mReview = null;
 
-    private RecyclerView mRecyclerView;
+
+    ListView mReviewListView;
+    private ReviewAdapter mReviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
-        mRecyclerView = findViewById(R.id.review_recycler);
+       mReviewListView = findViewById(R.id.reviewListView);
+        new ReviewsFetchTask().execute(getIntent().getStringExtra("id"));
+
     }
 
-    public void reviews(View view) {
-        new ReviewsFetchTask().execute(getIntent().getStringExtra("id"));
-    }
+
+
 
     private class ReviewsFetchTask extends AsyncTask<String, Void, MovieReview[]> {
 
@@ -52,7 +56,7 @@ public class ReviewActivity extends AppCompatActivity {
                 errorNetworkApi();
                 return null;
             }
-            Log.d("first element", strings[0]);
+
 
             URL reviewUrl = ReviewUrlUtils.buildUrl(strings[0]);
 
@@ -76,8 +80,34 @@ public class ReviewActivity extends AppCompatActivity {
             new ReviewsFetchTask().cancel(true);
             if (review != null) {
 
-                ReviewAdapter movieAdapter = new ReviewAdapter(review, ReviewActivity.this, (ReviewAdapter.MovieClickListener) ReviewActivity.this);
-                mRecyclerView.setAdapter(movieAdapter);
+                // Initialize message ListView and its adapter
+                //List<MovieReview> friendlyMessages = new ArrayList<>();
+                List<MovieReview> reviews = Arrays.asList(review);
+                mReviewAdapter = new ReviewAdapter(ReviewActivity.this, R.layout.item_review, reviews);
+                mReviewListView.setAdapter(mReviewAdapter);
+
+
+
+          /*      mReviewAdapter.add();
+*/
+
+
+
+             Log.d("class#################", review.getClass().toString());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 Log.d("review result", review.toString());
             } else {
@@ -86,6 +116,7 @@ public class ReviewActivity extends AppCompatActivity {
         }
 
     }
+
 
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

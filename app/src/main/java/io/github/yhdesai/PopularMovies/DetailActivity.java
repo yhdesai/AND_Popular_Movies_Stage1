@@ -29,6 +29,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private MovieReview[] mReview = null;
     private MovieTrailer mTrailer = null;
+    private String id ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class DetailActivity extends AppCompatActivity {
         String plot = getIntent().getStringExtra("plot");
         String rating = getIntent().getStringExtra("rating");
         String release = getIntent().getStringExtra("releaseDate");
-        String id = getIntent().getStringExtra("id");
+        id = getIntent().getStringExtra("id");
         String releaseFinal = release.substring(0, 4);
 
         Picasso.with(this)
@@ -69,8 +70,9 @@ public class DetailActivity extends AppCompatActivity {
 
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     public void reviews(View view) {
-       // new ReviewsFetchTask().execute(getIntent().getStringExtra("id"));
+       // new ReviewsFetchTask().execuintent.putExtra("plot", mMovie[position].getmPlot());te(getIntent().getStringExtra("id"));
         Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
+        intent.putExtra("id", id);
         startActivity(intent);
     }
 
