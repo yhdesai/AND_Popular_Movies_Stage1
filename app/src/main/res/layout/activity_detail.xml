@@ -84,6 +84,18 @@
                 android:layout_height="wrap_content"
                 android:text="Reviews"
                 android:onClick="reviews"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bookmark"
+                android:onClick="bookmark"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bookmark1"
+                android:onClick="bookmark1"/>
         </LinearLayout>
 
     </LinearLayout>
