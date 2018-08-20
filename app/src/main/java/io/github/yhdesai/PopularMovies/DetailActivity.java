@@ -162,7 +162,7 @@ public class DetailActivity extends AppCompatActivity {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                if (mBookmarkId == DEFAULT_TASK_ID) {
+                if (mBookmarkId.equals(DEFAULT_TASK_ID)) {
                     // insert new task
                     mDb.bookmarkDao().insertBookmark(bookmark);
                 } else {
