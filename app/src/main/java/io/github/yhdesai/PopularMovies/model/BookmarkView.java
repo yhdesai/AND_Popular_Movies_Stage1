@@ -51,10 +51,10 @@ public class BookmarkView extends AppCompatActivity {
         private Movie movie;
         private String id;
         private String title;
-        private String moviePoster;
+      //  private String moviePoster;
         private String plot;
         private String rating;
-        private String backdropPoster;
+     //   private String backdropPoster;
         private BookmarkEntry bookmark;
         private AppDatabase mDb;
         private String releaseFinal;
@@ -73,9 +73,9 @@ public class BookmarkView extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_detail);
+            setContentView(R.layout.activity_bookmark_view);
             initViews();
-            mDb = AppDatabase.getInstance(getApplicationContext());
+           /* mDb = AppDatabase.getInstance(getApplicationContext());
 
             AddBookmarkViewModelFactory factory = new AddBookmarkViewModelFactory(mDb, mBookmarkId);
            final AddBookmarkViewModel viewModel
@@ -83,11 +83,11 @@ public class BookmarkView extends AppCompatActivity {
 
             viewModel.getBookmark().observe(this, new Observer<BookmarkEntry>() {
                 @Override
-                public void onChanged(@Nullable BookmarkEntry taskEntry) {
+                public void onChanged(@Nullable BookmarkEntry bookmarkEntry) {
                     viewModel.getBookmark().removeObserver(this);
-                    populateUI(taskEntry);
+                    populateUI(bookmarkEntry);
                 }
-            });
+            });*/
 
 
             ImageView iv_poster_detail = findViewById(R.id.id_small_movie_poster);
@@ -98,13 +98,13 @@ public class BookmarkView extends AppCompatActivity {
 
 
             title = getIntent().getStringExtra("title");
-            moviePoster = getIntent().getStringExtra("poster");
+           // moviePoster = getIntent().getStringExtra("poster");
             plot = getIntent().getStringExtra("plot");
             rating = getIntent().getStringExtra("rating");
-            releaseDate = getIntent().getStringExtra("releaseDate");
+            releaseDate = getIntent().getStringExtra("date");
             id = getIntent().getStringExtra("id");
             releaseFinal = releaseDate.substring(0, 4);
-            backdropPoster = getIntent().getStringExtra("backdropimage");
+         //   backdropPoster = getIntent().getStringExtra("backdropimage");
 
        /* movie.setmTitle(title);
         movie.setmMoviePoster(poster);
@@ -114,9 +114,9 @@ public class BookmarkView extends AppCompatActivity {
         movie.setmId(id);
         movie.setmReleaseDate(releaseFinal);*/
 
-            Picasso.with(this)
+         /*   Picasso.with(this)
                     .load(Constant.URL_IMAGE_PATH.concat(moviePoster))
-                    .into(iv_poster_detail);
+                    .into(iv_poster_detail);*/
             tv_title.setText(title);
             tv_plot.setText(plot);
             tv_rating.setText(rating.concat("/10"));
@@ -133,11 +133,11 @@ public class BookmarkView extends AppCompatActivity {
             ((RadioGroup) findViewById(R.id.radioGroup)).check(R.id.radButton1);
         }
 
-        public void trailer(View view) {
+        /*public void trailer(View view) {
 
             new TrailerFetchTask().execute(getIntent().getStringExtra("id"));
 
-        }
+        }*/
 
         private void initViews() {
             mEditText = findViewById(R.id.editTextTaskDescription);
@@ -153,9 +153,9 @@ public class BookmarkView extends AppCompatActivity {
             startActivity(intent);
         }
 
-        public void bookmark(View view) {
+      /*  public void bookmark(View view) {
 
-            Log.d("###data here###",
+            *//*Log.d("###data here###",
                     "\n" + "\n" + "id: " + id + "\n" +
                             "title: " + title + "\n" +
                             "poster: " + moviePoster + "\n" +
@@ -163,9 +163,9 @@ public class BookmarkView extends AppCompatActivity {
                             "rating: " + rating + "\n" +
                             "date: " + releaseFinal + "\n" +
                             "poster: " + backdropPoster + "\n"
-            );
+            );*//*
 
-            bookmark = new BookmarkEntry(id, title, moviePoster, plot, rating, releaseFinal, backdropPoster);
+            bookmark = new BookmarkEntry(id, title, n, plot, rating, releaseFinal, backdropPoster);
             // mDb.taskDao().insertBookmark(task);
 
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -177,7 +177,7 @@ public class BookmarkView extends AppCompatActivity {
 
                 }
             });
-       /* AppExecutors.getInstance().diskIO().execute(new Runnable() {
+       *//* AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 if (mBookmarkId == DEFAULT_TASK_ID) {
@@ -190,22 +190,22 @@ public class BookmarkView extends AppCompatActivity {
                 }
                 finish();
             }
-        });*/
+        });*//*
 
-        }
+        }*/
 
-        private boolean isOnline() {
+       /* private boolean isOnline() {
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             assert cm != null;
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             return netInfo != null && netInfo.isConnectedOrConnecting();
         }
+*/
 
+      /*  private void errorNetworkApi() {
+        }*/
 
-        private void errorNetworkApi() {
-        }
-
-        private class TrailerFetchTask extends AsyncTask<String, Void, MovieTrailer> {
+       /* private class TrailerFetchTask extends AsyncTask<String, Void, MovieTrailer> {
 
             @Override
             protected void onPreExecute() {
@@ -252,7 +252,7 @@ public class BookmarkView extends AppCompatActivity {
 
 
         }
-
+*/
 
 
    /* private void bookmark(View view) {

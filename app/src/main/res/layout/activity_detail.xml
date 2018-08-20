@@ -76,19 +76,19 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Play Trailer"
+                android:text="@string/play_trailer"
                 android:onClick="trailer"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reviews"
+                android:text="@string/reviews"
                 android:onClick="reviews"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="bookmark"
+                android:text="@string/bookmark"
                 android:onClick="bookmark"/>
 
 

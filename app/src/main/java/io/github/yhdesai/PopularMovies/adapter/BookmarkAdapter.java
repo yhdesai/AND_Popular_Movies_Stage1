@@ -62,7 +62,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     @Override
     public void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position) {
 
-       BookmarkEntry bookmarkEntry = mBookmarkEntries.get(position);
+        BookmarkEntry bookmarkEntry = mBookmarkEntries.get(position);
         if (bookmarkEntry != null) {
             String plot = bookmarkEntry.getPlot();
             String rating = bookmarkEntry.getRating();
@@ -164,14 +164,14 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
     }
 
     public interface ItemClickListener {
-        void onItemClickListener(String itemId);
+        void onItemClickListener(String itemId, String title, String plot, String rating, String releaseDate);
     }
 
     class BookmarkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
-       /* TextView releastDate;
-        TextView rating;
-        TextView plot;*/
+        /* TextView releastDate;
+         TextView rating;
+         TextView plot;*/
         ImageView moviePoster;
 
 
@@ -193,7 +193,11 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         @Override
         public void onClick(View view) {
             String elementId = mBookmarkEntries.get(getAdapterPosition()).getId();
-            mItemClickListener.onItemClickListener(elementId);
+            String title = mBookmarkEntries.get(getAdapterPosition()).getTitle();
+            String plot = mBookmarkEntries.get(getAdapterPosition()).getPlot();
+            String rating = mBookmarkEntries.get(getAdapterPosition()).getRating();
+            String releaseDate = mBookmarkEntries.get(getAdapterPosition()).getReleaseDate();
+            mItemClickListener.onItemClickListener(elementId, title, plot, rating, releaseDate);
         }
     }
 }

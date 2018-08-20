@@ -1,8 +1,8 @@
-
 package io.github.yhdesai.PopularMovies.model;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +41,7 @@ public class Bookmark extends AppCompatActivity implements BookmarkAdapter.ItemC
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-       mAdapter = new BookmarkAdapter(this, this);
+        mAdapter = new BookmarkAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
 
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), VERTICAL);
@@ -53,7 +53,7 @@ public class Bookmark extends AppCompatActivity implements BookmarkAdapter.ItemC
                 return false;
             }
 
-           @Override
+            @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
@@ -83,11 +83,17 @@ public class Bookmark extends AppCompatActivity implements BookmarkAdapter.ItemC
     }
 
     @Override
-    public void onItemClickListener(String itemId) {
-       Log.d("ItemId", itemId);
-        /*Intent intent = new Intent(Bookmark.this, DetailActivity.class);
-        intent.putExtra(AddBookmarkActivity.EXTRA_TASK_ID, itemId);
-        startActivity(intent);*/
+    public void onItemClickListener(String itemId, String title, String plot, String rating, String releaseDate) {
+        Log.d("ItemId#################", itemId);
+        Log.d("bookmarks", itemId+title+plot+rating+releaseDate);
+
+        Intent intent = new Intent(Bookmark.this, BookmarkView.class);
+        intent.putExtra("id", itemId);
+        intent.putExtra("title", title);
+        intent.putExtra("plot", plot);
+        intent.putExtra("rating", rating);
+        intent.putExtra("date", releaseDate);
+        startActivity(intent);
     }
 
 

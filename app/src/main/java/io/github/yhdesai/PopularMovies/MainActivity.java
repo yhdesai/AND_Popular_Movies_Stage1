@@ -28,6 +28,7 @@ import java.net.URL;
 
 import io.github.yhdesai.PopularMovies.adapter.MovieAdapter;
 import io.github.yhdesai.PopularMovies.model.Bookmark;
+import io.github.yhdesai.PopularMovies.model.BookmarkView;
 import io.github.yhdesai.PopularMovies.model.Movie;
 import io.github.yhdesai.PopularMovies.utils.JsonUtils;
 import io.github.yhdesai.PopularMovies.utils.MovieUrlUtils;
@@ -221,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 nameSort = "Top Rated Movies";
                 setTitle(nameSort);
                 break;
+
         }
         return super.onOptionsItemSelected(item);
     }

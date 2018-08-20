@@ -36,6 +36,8 @@ import io.github.yhdesai.PopularMovies.utils.VideoUrlUtils;
 
 public class DetailActivity extends AppCompatActivity {
 
+    public static final String CONTENT_AUTHORITY = "io.github.yhdesai.PopularMovies";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     private static final String DEFAULT_TASK_ID = "-1";
     private static final String TAG = DetailActivity.class.getSimpleName();
     String releaseDate;
@@ -53,6 +55,7 @@ public class DetailActivity extends AppCompatActivity {
     private String backdropPoster;
     private BookmarkEntry bookmark;
     private AppDatabase mDb;
+    private AppDatabase mDbs;
     private String releaseFinal;
 
     public static void watchYoutubeVideo(Context context, String id) {
@@ -77,13 +80,14 @@ public class DetailActivity extends AppCompatActivity {
         final AddBookmarkViewModel viewModel
                 = ViewModelProviders.of(this, factory).get(AddBookmarkViewModel.class);
 
-        viewModel.getBookmark().observe(this, new Observer<BookmarkEntry>() {
-            @Override
-            public void onChanged(@Nullable BookmarkEntry taskEntry) {
-                viewModel.getBookmark().removeObserver(this);
-                populateUI(taskEntry);
-            }
-        });
+        viewModel.getBookmark().observe(this,
+                new Observer<BookmarkEntry>() {
+                    @Override
+                    public void onChanged(@Nullable BookmarkEntry taskEntry) {
+                        viewModel.getBookmark().removeObserver(this);
+                        populateUI(taskEntry);
+                    }
+                });
 
 
         ImageView iv_poster_detail = findViewById(R.id.id_small_movie_poster);
@@ -158,13 +162,50 @@ public class DetailActivity extends AppCompatActivity {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-
-                mDb.bookmarkDao().insertBookmark(bookmark);
-
-
+                if (mBookmarkId == DEFAULT_TASK_ID) {
+                    // insert new task
+                    mDb.bookmarkDao().insertBookmark(bookmark);
+                } else {
+                    //update task
+                    bookmark.setId(mBookmarkId);
+                    mDb.bookmarkDao().updateBookmark(bookmark);
+                }
+                finish();
             }
         });
-       /* AppExecutors.getInstance().diskIO().execute(new Runnable() {
+        //Need help here for this todo, before adding the bookmark, it needs to check if it already exists
+        //TODO add checker for db entry here
+
+       /* mDbs = AppDatabase.getInstance(getApplicationContext());
+
+        AddBookmarkViewModelFactory factory = new AddBookmarkViewModelFactory(mDb, mBookmarkId);
+        final AddBookmarkViewModel viewModel
+                = ViewModelProviders.of(DetailActivity.this, factory).get(AddBookmarkViewModel.class);
+
+        viewModel.getBookmark().observe(DetailActivity.this, new Observer<BookmarkEntry>() {
+            @Override
+            public void onChanged(@NonNull BookmarkEntry bookmarkEntry) {
+                viewModel.getBookmark().removeObserver(this);
+                Log.d("bookmarkEntry ID", bookmarkEntry.getId());
+            }
+        });*/
+
+
+      /*  final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath("movies")
+                .build();
+*/
+              /*  if ("r" == "g") {
+                    // not found in database
+                    getContentResolver().query("content://com.foo.android.providerdemo/idOfItem>");
+
+                    mDb.bookmarkDao().insertBookmark(bookmark);
+                } else {
+                    mDb.bookmarkDao().deleteBookmark(bookmark);
+                }*/
+
+    }
+   /* AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 if (mBookmarkId == DEFAULT_TASK_ID) {
@@ -179,7 +220,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         });*/
 
-    }
 
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -191,6 +231,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void errorNetworkApi() {
     }
+
 
     private class TrailerFetchTask extends AsyncTask<String, Void, MovieTrailer> {
 
@@ -241,27 +282,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
-
-   /* private void bookmark(View view) {
-        mDb = AppDatabase.getInstance(getApplicationContext());
-
-        mBookmarkId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
-
-        AddBookmarkViewModelFactory factory = new AddBookmarkViewModelFactory(mDb, mBookmarkId);
-        // COMPLETED (11) Declare a AddBookmarkViewModel variable and initialize it by calling ViewModelProviders.of
-        // for that use the factory created above AddBookmarkViewModel
-        final AddBookmarkViewModel viewModel
-                = ViewModelProviders.of(this, factory).get(AddBookmarkViewModel.class);
-
-        // COMPLETED (12) Observe the LiveData object in the ViewModel. Use it also when removing the observer
-        viewModel.getBookmark().observe(this, new Observer<BookmarkEntry>() {
-            @Override
-            public void onChanged(@Nullable BookmarkEntry taskEntry) {
-                viewModel.getBookmark().removeObserver(this);
-                populateUI(taskEntry);
-            }
-        });
-    }*/
 }
 
 

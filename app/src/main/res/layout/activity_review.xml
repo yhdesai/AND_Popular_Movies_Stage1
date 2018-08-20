@@ -9,8 +9,9 @@
     <ListView
         android:id="@+id/reviewListView"
         android:layout_width="match_parent"
+        android:layout_margin="16dp"
         android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
+        android:divider="@android:color/holo_blue_bright"
         android:transcriptMode="alwaysScroll"
         tools:listitem="@layout/item_review"/>
 

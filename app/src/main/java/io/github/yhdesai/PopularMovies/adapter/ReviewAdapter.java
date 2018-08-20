@@ -40,14 +40,15 @@ public class ReviewAdapter extends ArrayAdapter<MovieReview> {
 
         TextView authorTextView = convertView.findViewById(R.id.author);
         TextView contentTextView = convertView.findViewById(R.id.content);
-        TextView idTextView = convertView.findViewById(R.id.id);
-        TextView urlTextView = convertView.findViewById(R.id.url);
+       // TextView idTextView = convertView.findViewById(R.id.id);
+       /* TextView urlTextView = convertView.findViewById(R.id.url);*/
 
         MovieReview review = getItem(position);
+
         authorTextView.setText(review.getrAuthor());
         contentTextView.setText(review.getrContent());
-        idTextView.setText(review.getrId());
-        urlTextView.setText(review.getrUrl());
+      //  idTextView.setText(review.getrId());
+       /* urlTextView.setText(review.getrUrl());*/
 
         return convertView;
     }
