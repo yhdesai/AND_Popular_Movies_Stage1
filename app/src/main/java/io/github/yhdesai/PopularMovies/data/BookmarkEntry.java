@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 
 
 @Entity(tableName = "movie")
-public class TaskEntry {
+public class BookmarkEntry {
 
 
 
@@ -27,7 +27,7 @@ public class TaskEntry {
 */
 
     @Ignore
-    public TaskEntry(String title, String moviePoster, String plot, String rating, String releaseDate, String backdropPoster) {
+    public BookmarkEntry(String title, String moviePoster, String plot, String rating, String releaseDate, String backdropPoster) {
 
         this.title = title;
         this.moviePoster = moviePoster;
@@ -38,7 +38,7 @@ public class TaskEntry {
        /* this.updatedAt = updatedAt;*/
     }
 
-    public TaskEntry(String id, String title, String moviePoster, String plot, String rating, String releaseDate, String backdropPoster) {
+    public BookmarkEntry(String id, String title, String moviePoster, String plot, String rating, String releaseDate, String backdropPoster) {
         this.id = id;
         this.title = title;
         this.moviePoster = moviePoster;

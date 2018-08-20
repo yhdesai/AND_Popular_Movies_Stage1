@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import java.net.URL;
 
 import io.github.yhdesai.PopularMovies.adapter.MovieAdapter;
+import io.github.yhdesai.PopularMovies.model.Bookmark;
 import io.github.yhdesai.PopularMovies.model.Movie;
 import io.github.yhdesai.PopularMovies.utils.JsonUtils;
 import io.github.yhdesai.PopularMovies.utils.MovieUrlUtils;
@@ -67,9 +69,22 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
 
         new MovieFetchTask().execute(queryMovie);
-
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bookmark(view);
+            }
+        });
     }
 
+
+
+
+    public void bookmark(View view) {
+        Intent intent = new Intent(MainActivity.this, Bookmark.class);
+        startActivity(intent);
+    }
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         assert cm != null;

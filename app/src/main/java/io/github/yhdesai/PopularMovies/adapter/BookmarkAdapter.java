@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.yhdesai.PopularMovies.bookmark;
+package io.github.yhdesai.PopularMovies.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -33,50 +33,50 @@ import java.util.List;
 
 import io.github.yhdesai.PopularMovies.Constant;
 import io.github.yhdesai.PopularMovies.R;
-import io.github.yhdesai.PopularMovies.data.TaskEntry;
+import io.github.yhdesai.PopularMovies.data.BookmarkEntry;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
+public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.BookmarkViewHolder> {
 
     private static final String DATE_FORMAT = "dd/MM/yyy";
 
 
     final private ItemClickListener mItemClickListener;
-    private List<TaskEntry> mTaskEntries;
+    private List<BookmarkEntry> mBookmarkEntries;
     private Context mContext;
 
-    public TaskAdapter(Context context, ItemClickListener listener) {
+    public BookmarkAdapter(Context context, ItemClickListener listener) {
         mContext = context;
         mItemClickListener = listener;
     }
 
     @Override
-    public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // Inflate the task_layout to a view
+    public BookmarkViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // Inflate the bookmark_layout to a view
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.task_layout, parent, false);
+                .inflate(R.layout.bookmark_layout, parent, false);
 
-        return new TaskViewHolder(view);
+        return new BookmarkViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position) {
 
-        TaskEntry taskEntry = mTaskEntries.get(position);
-        if (taskEntry != null) {
-            String plot = taskEntry.getPlot();
-            String rating = taskEntry.getRating();
-            String title = taskEntry.getTitle();
-            // String backgroundPoster = taskEntry.getBackdropPoster();
-            String moviePoster = taskEntry.getMoviePoster();
-            String id = taskEntry.getId();
-            String releaseDate = taskEntry.getReleaseDate();
+       BookmarkEntry bookmarkEntry = mBookmarkEntries.get(position);
+        if (bookmarkEntry != null) {
+            String plot = bookmarkEntry.getPlot();
+            String rating = bookmarkEntry.getRating();
+            String title = bookmarkEntry.getTitle();
+            // String backgroundPoster = bookmarkEntry.getBackdropPoster();
+            String moviePoster = bookmarkEntry.getMoviePoster();
+            String id = bookmarkEntry.getId();
+            String releaseDate = bookmarkEntry.getReleaseDate();
             /*String updatedAt = dat
-           eFormat.format(taskEntry.getUpdatedAt());
+           eFormat.format(bookmarkEntry.getUpdatedAt());
              */
 
 
-            Log.d("TaskEntry",
+            Log.d("BokmarkEntry",
                     "\n" + "\n" + "id: " + id + "\n" +
                             "title: " + title + "\n" +
                             "poster: " + moviePoster + "\n" +
@@ -86,13 +86,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                             "poster: "+backdropPoster+"\n"*/
             );
             //Set values
-            if (plot != null) {
+            /*if (plot != null) {
 
                 holder.plot.setText(plot);
             }
             if (rating != null) {
                 holder.rating.setText(rating);
-            }
+            }*/
             if (title != null) {
                 holder.title.setText(title);
             }
@@ -104,9 +104,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
             /* holder.moviePoster.setImageURI(moviePoster);*/
 
-            if (releaseDate != null) {
+           /* if (releaseDate != null) {
                 holder.releastDate.setText(releaseDate);
-            }
+            }*/
             /*holder.updatedAtView.setText(updatedAt);*/
 
        /* // Programmatically set the text and color for the priority TextView
@@ -147,19 +147,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
      */
     @Override
     public int getItemCount() {
-        if (mTaskEntries == null) {
+        if (mBookmarkEntries == null) {
             return 0;
         }
-        return mTaskEntries.size();
+        return mBookmarkEntries.size();
     }
 
-    public List<TaskEntry> getTasks() {
-        return mTaskEntries;
+    public List<BookmarkEntry> getBookmarks() {
+        return mBookmarkEntries;
     }
 
 
-    public void setTasks(List<TaskEntry> taskEntries) {
-        mTaskEntries = taskEntries;
+    public void setBookmarks(List<BookmarkEntry> bookmarkEntries) {
+        mBookmarkEntries = bookmarkEntries;
         notifyDataSetChanged();
     }
 
@@ -167,11 +167,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         void onItemClickListener(String itemId);
     }
 
-    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class BookmarkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
-        TextView releastDate;
+       /* TextView releastDate;
         TextView rating;
-        TextView plot;
+        TextView plot;*/
         ImageView moviePoster;
 
 
@@ -179,20 +179,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         //   TextView backdropPoster;
 
 
-        public TaskViewHolder(View itemView) {
+        public BookmarkViewHolder(View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.movie_name);
-            releastDate = itemView.findViewById(R.id.movie_genre);
+           /* releastDate = itemView.findViewById(R.id.movie_genre);
             rating = itemView.findViewById(R.id.ratingID);
-            plot = itemView.findViewById(R.id.id_movie_overview);
+            plot = itemView.findViewById(R.id.id_movie_overview);*/
             moviePoster = itemView.findViewById(R.id.id_small_movie_poster);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            String elementId = mTaskEntries.get(getAdapterPosition()).getId();
+            String elementId = mBookmarkEntries.get(getAdapterPosition()).getId();
             mItemClickListener.onItemClickListener(elementId);
         }
     }

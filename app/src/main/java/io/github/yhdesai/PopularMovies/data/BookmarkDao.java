@@ -11,20 +11,20 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 @Dao
-public interface TaskDao {
+public interface BookmarkDao {
 
     @Query("SELECT * FROM movie ORDER BY rating")
-    LiveData<List<TaskEntry>> loadAllTasks();
+    LiveData<List<BookmarkEntry>> loadAllBookmarks();
 
     @Insert
-    void insertTask(TaskEntry taskEntry);
+    void insertBookmark(BookmarkEntry bookmarkEntry);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateTask(TaskEntry taskEntry);
+    void updateBookmark(BookmarkEntry taskEntry);
 
     @Delete
-    void deleteTask(TaskEntry taskEntry);
+    void deleteBookmark(BookmarkEntry bookmarkEntry);
 
     @Query("SELECT * FROM movie WHERE id = :id")
-    LiveData<TaskEntry> loadTaskById(String id);
+    LiveData<BookmarkEntry> loadBookmarkById(String id);
 }

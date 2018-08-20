@@ -3,12 +3,10 @@ package io.github.yhdesai.PopularMovies.model;
 public class MovieReview {
 
 
-
-
-        private String rAuthor;
-        private String rContent;
-        private String rId;
-        private String rUrl;
+    private String rAuthor;
+    private String rContent;
+    private String rId;
+    private String rUrl;
 
 
     public String getrAuthor() {

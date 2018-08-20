@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -23,58 +22,49 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
-import java.util.Date;
 
-import io.github.yhdesai.PopularMovies.adapter.MovieAdapter;
-import io.github.yhdesai.PopularMovies.bookmark.AddTaskActivity;
-import io.github.yhdesai.PopularMovies.bookmark.AddTaskViewModel;
-import io.github.yhdesai.PopularMovies.bookmark.AddTaskViewModelFactory;
+import io.github.yhdesai.PopularMovies.bookmark.AddBookmarkViewModelFactory;
 import io.github.yhdesai.PopularMovies.bookmark.AppExecutors;
-import io.github.yhdesai.PopularMovies.bookmark.MainActivity2;
 import io.github.yhdesai.PopularMovies.data.AppDatabase;
-import io.github.yhdesai.PopularMovies.data.TaskEntry;
+import io.github.yhdesai.PopularMovies.data.BookmarkEntry;
+import io.github.yhdesai.PopularMovies.model.AddBookmarkViewModel;
 import io.github.yhdesai.PopularMovies.model.Movie;
 import io.github.yhdesai.PopularMovies.model.MovieReview;
 import io.github.yhdesai.PopularMovies.model.MovieTrailer;
 import io.github.yhdesai.PopularMovies.utils.JsonUtils;
-import io.github.yhdesai.PopularMovies.utils.ReviewUrlUtils;
 import io.github.yhdesai.PopularMovies.utils.VideoUrlUtils;
 
 public class DetailActivity extends AppCompatActivity {
 
+    private static final String DEFAULT_TASK_ID = "-1";
+    private static final String TAG = DetailActivity.class.getSimpleName();
+    String releaseDate;
+    EditText mEditText;
+    RadioGroup mRadioGroup;
+    String mBookmarkId = DEFAULT_TASK_ID;
     private MovieReview[] mReview = null;
     private MovieTrailer mTrailer = null;
-
     private Movie movie;
-
     private String id;
     private String title;
     private String moviePoster;
     private String plot;
     private String rating;
-    private String releaseDate;
     private String backdropPoster;
-
-
-    private TaskEntry task;
-
-    EditText mEditText;
-    RadioGroup mRadioGroup;
-
-
-
-
-    private static final String DEFAULT_TASK_ID = "-1";
-    // Constant for logging
-    private static final String TAG = DetailActivity.class.getSimpleName();
-
-
-    private String mTaskId = DEFAULT_TASK_ID;
-
-
+    private BookmarkEntry bookmark;
     private AppDatabase mDb;
     private String releaseFinal;
 
+    public static void watchYoutubeVideo(Context context, String id) {
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            context.startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            context.startActivity(webIntent);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,16 +73,14 @@ public class DetailActivity extends AppCompatActivity {
         initViews();
         mDb = AppDatabase.getInstance(getApplicationContext());
 
-        AddTaskViewModelFactory factory = new AddTaskViewModelFactory(mDb, mTaskId);
-        // COMPLETED (11) Declare a AddTaskViewModel variable and initialize it by calling ViewModelProviders.of
-        // for that use the factory created above AddTaskViewModel
-        final AddTaskViewModel viewModel
-                = ViewModelProviders.of(this, factory).get(AddTaskViewModel.class);
+        AddBookmarkViewModelFactory factory = new AddBookmarkViewModelFactory(mDb, mBookmarkId);
+        final AddBookmarkViewModel viewModel
+                = ViewModelProviders.of(this, factory).get(AddBookmarkViewModel.class);
 
-        viewModel.getTask().observe(this, new Observer<TaskEntry>() {
+        viewModel.getBookmark().observe(this, new Observer<BookmarkEntry>() {
             @Override
-            public void onChanged(@Nullable TaskEntry taskEntry) {
-                viewModel.getTask().removeObserver(this);
+            public void onChanged(@Nullable BookmarkEntry taskEntry) {
+                viewModel.getBookmark().removeObserver(this);
                 populateUI(taskEntry);
             }
         });
@@ -114,14 +102,6 @@ public class DetailActivity extends AppCompatActivity {
         releaseFinal = releaseDate.substring(0, 4);
         backdropPoster = getIntent().getStringExtra("backdropimage");
 
-       /* movie.setmTitle(title);
-        movie.setmMoviePoster(poster);
-        movie.setmPlot(plot);
-        movie.setmRating(rating);
-        movie.setmReleaseDate(release);
-        movie.setmId(id);
-        movie.setmReleaseDate(releaseFinal);*/
-
         Picasso.with(this)
                 .load(Constant.URL_IMAGE_PATH.concat(moviePoster))
                 .into(iv_poster_detail);
@@ -131,7 +111,8 @@ public class DetailActivity extends AppCompatActivity {
         tv_release.setText(releaseFinal);
         setTitle(title);
     }
-    private void populateUI(TaskEntry task) {
+
+    private void populateUI(BookmarkEntry task) {
         if (task == null) {
             return;
         }
@@ -139,11 +120,13 @@ public class DetailActivity extends AppCompatActivity {
         mEditText.setText(task.getPlot());
         ((RadioGroup) findViewById(R.id.radioGroup)).check(R.id.radButton1);
     }
+
     public void trailer(View view) {
 
         new TrailerFetchTask().execute(getIntent().getStringExtra("id"));
 
     }
+
     private void initViews() {
         mEditText = findViewById(R.id.editTextTaskDescription);
         mRadioGroup = findViewById(R.id.radioGroup);
@@ -151,9 +134,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-
     public void reviews(View view) {
-        // new ReviewsFetchTask().execuintent.putExtra("plot", mMovie[position].getmPlot());te(getIntent().getStringExtra("id"));
         Intent intent = new Intent(DetailActivity.this, ReviewActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
@@ -162,23 +143,23 @@ public class DetailActivity extends AppCompatActivity {
     public void bookmark(View view) {
 
         Log.d("###data here###",
-                "\n"+"\n"+"id: "+ id +"\n"+
-                        "title: "+title+ "\n"+
-                        "poster: "+ moviePoster+"\n"+
-                        "plot: "+ plot+"\n"+
-                        "rating: "+rating+"\n"+
-                        "date: "+releaseFinal+ "\n"+
-                        "poster: "+backdropPoster+"\n"
-                        );
+                "\n" + "\n" + "id: " + id + "\n" +
+                        "title: " + title + "\n" +
+                        "poster: " + moviePoster + "\n" +
+                        "plot: " + plot + "\n" +
+                        "rating: " + rating + "\n" +
+                        "date: " + releaseFinal + "\n" +
+                        "poster: " + backdropPoster + "\n"
+        );
 
-        task = new TaskEntry(id, title, moviePoster, plot, rating, releaseFinal, backdropPoster);
-       // mDb.taskDao().insertTask(task);
+        bookmark = new BookmarkEntry(id, title, moviePoster, plot, rating, releaseFinal, backdropPoster);
+        // mDb.taskDao().insertBookmark(task);
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
 
-                    mDb.taskDao().insertTask(task);
+                mDb.bookmarkDao().insertBookmark(bookmark);
 
 
             }
@@ -186,13 +167,13 @@ public class DetailActivity extends AppCompatActivity {
        /* AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                if (mTaskId == DEFAULT_TASK_ID) {
+                if (mBookmarkId == DEFAULT_TASK_ID) {
                     // insert new task
-                    mDb.taskDao().insertTask(task);
+                    mDb.taskDao().insertBookmark(task);
                 } else {
                     //update task
-                    task.setId(mTaskId);
-                    mDb.taskDao().updateTask(task);
+                    task.setId(mBookmarkId);
+                    mDb.taskDao().updateBookmark(task);
                 }
                 finish();
             }
@@ -200,11 +181,16 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    public void bookmark1(View view) {
-        Intent intent = new Intent(DetailActivity.this, MainActivity2.class);
-        startActivity(intent);
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+
+    private void errorNetworkApi() {
+    }
 
     private class TrailerFetchTask extends AsyncTask<String, Void, MovieTrailer> {
 
@@ -251,28 +237,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
-    }
 
-    private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert cm != null;
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
-
-    private void errorNetworkApi() {
-    }
-
-    public static void watchYoutubeVideo(Context context, String id) {
-        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
-        Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("http://www.youtube.com/watch?v=" + id));
-        try {
-            context.startActivity(appIntent);
-        } catch (ActivityNotFoundException ex) {
-            context.startActivity(webIntent);
-        }
     }
 
 
@@ -280,19 +245,19 @@ public class DetailActivity extends AppCompatActivity {
    /* private void bookmark(View view) {
         mDb = AppDatabase.getInstance(getApplicationContext());
 
-        mTaskId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
+        mBookmarkId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
 
-        AddTaskViewModelFactory factory = new AddTaskViewModelFactory(mDb, mTaskId);
-        // COMPLETED (11) Declare a AddTaskViewModel variable and initialize it by calling ViewModelProviders.of
-        // for that use the factory created above AddTaskViewModel
-        final AddTaskViewModel viewModel
-                = ViewModelProviders.of(this, factory).get(AddTaskViewModel.class);
+        AddBookmarkViewModelFactory factory = new AddBookmarkViewModelFactory(mDb, mBookmarkId);
+        // COMPLETED (11) Declare a AddBookmarkViewModel variable and initialize it by calling ViewModelProviders.of
+        // for that use the factory created above AddBookmarkViewModel
+        final AddBookmarkViewModel viewModel
+                = ViewModelProviders.of(this, factory).get(AddBookmarkViewModel.class);
 
         // COMPLETED (12) Observe the LiveData object in the ViewModel. Use it also when removing the observer
-        viewModel.getTask().observe(this, new Observer<TaskEntry>() {
+        viewModel.getBookmark().observe(this, new Observer<BookmarkEntry>() {
             @Override
-            public void onChanged(@Nullable TaskEntry taskEntry) {
-                viewModel.getTask().removeObserver(this);
+            public void onChanged(@Nullable BookmarkEntry taskEntry) {
+                viewModel.getBookmark().removeObserver(this);
                 populateUI(taskEntry);
             }
         });
