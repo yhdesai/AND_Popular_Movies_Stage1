@@ -1,18 +1,18 @@
 /*
-* Copyright (C) 2016 The Android Open Source Project
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*      http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package io.github.yhdesai.PopularMovies.bookmark;
 
@@ -21,11 +21,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
+import io.github.yhdesai.PopularMovies.Constant;
 import io.github.yhdesai.PopularMovies.R;
 import io.github.yhdesai.PopularMovies.data.TaskEntry;
 
@@ -63,15 +67,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         String backgroundPoster = taskEntry.getBackdropPoster();
         String moviePoster = taskEntry.getMoviePoster();
         String id = taskEntry.getId();
-        String releaseDate= taskEntry.getReleaseDate();
+        String releaseDate = taskEntry.getReleaseDate();
         /*String updatedAt = dateFormat.format(taskEntry.getUpdatedAt());
-*/
+         */
         //Set values
         holder.plot.setText(plot);
         holder.rating.setText(rating);
         holder.title.setText(title);
         holder.backdropPoster.setText(backgroundPoster);
-        holder.moviePoster.setText(moviePoster);
+
+        Picasso.with(mContext)
+                .load(Constant.URL_IMAGE_PATH.concat(moviePoster))
+                .into(holder.moviePoster);
+
+       /* holder.moviePoster.setImageURI(moviePoster);*/
+
         holder.id.setText(id);
         holder.releastDate.setText(releaseDate);
         /*holder.updatedAtView.setText(updatedAt);*/
@@ -134,22 +144,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView id;
         TextView title;
-        TextView moviePoster;
-        TextView plot;
-        TextView rating;
         TextView releastDate;
-        TextView backdropPoster;
+        TextView rating;
+        TextView plot;
+        ImageView moviePoster;
 
+
+        TextView id;
+        TextView backdropPoster;
 
 
         public TaskViewHolder(View itemView) {
             super(itemView);
 
-            id = itemView.findViewById(R.id.movieNameID);
-         /*   updatedAtView = itemView.findViewById(R.id.taskUpdatedAt);
-            priorityView = itemView.findViewById(R.id.priorityTextView);*/
+            title = itemView.findViewById(R.id.movie_name);
+            releastDate = itemView.findViewById(R.id.movie_genre);
+            rating = itemView.findViewById(R.id.ratingID);
+            plot = itemView.findViewById(R.id.id_movie_overview);
+            moviePoster = itemView.findViewById(R.id.id_small_movie_poster);
             itemView.setOnClickListener(this);
         }
 
