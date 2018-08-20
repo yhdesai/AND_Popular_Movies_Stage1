@@ -36,8 +36,8 @@ import io.github.yhdesai.PopularMovies.utils.VideoUrlUtils;
 
 public class DetailActivity extends AppCompatActivity {
 
-    public static final String CONTENT_AUTHORITY = "io.github.yhdesai.PopularMovies";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    private static final String CONTENT_AUTHORITY = "io.github.yhdesai.PopularMovies";
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     private static final String DEFAULT_TASK_ID = "-1";
     private static final String TAG = DetailActivity.class.getSimpleName();
     String releaseDate;
@@ -170,7 +170,7 @@ public class DetailActivity extends AppCompatActivity {
                     bookmark.setId(mBookmarkId);
                     mDb.bookmarkDao().updateBookmark(bookmark);
                 }
-                finish();
+                /* finish();*/
             }
         });
         //Need help here for this todo, before adding the bookmark, it needs to check if it already exists
@@ -229,10 +229,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
-    private void errorNetworkApi() {
-    }
-
-
     private class TrailerFetchTask extends AsyncTask<String, Void, MovieTrailer> {
 
         @Override
@@ -244,7 +240,6 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected MovieTrailer doInBackground(String... strings) {
             if (!isOnline()) {
-                errorNetworkApi();
                 return null;
             }
             Log.d("first element", strings[0]);

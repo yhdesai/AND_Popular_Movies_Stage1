@@ -14,7 +14,6 @@ import io.github.yhdesai.PopularMovies.BuildConfig;
 import io.github.yhdesai.PopularMovies.Constant;
 
 import static io.github.yhdesai.PopularMovies.Constant.MOVIE_BASE_URL;
-import static io.github.yhdesai.PopularMovies.Constant.MOVIE_TEMP_URL;
 
 
 public class MovieUrlUtils {

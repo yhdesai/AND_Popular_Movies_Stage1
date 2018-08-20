@@ -26,9 +26,8 @@
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".ReviewActivity" />
-        <activity android:name=".bookmark.AddBookmarkActivity" />
         <activity android:name=".model.Bookmark" />
-        <activity android:name=".model.BookmarkView"></activity>
+        <activity android:name=".model.BookmarkView" />
     </application>
 
 </manifest>

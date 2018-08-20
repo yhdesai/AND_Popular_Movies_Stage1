@@ -4,19 +4,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ListView;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import io.github.yhdesai.PopularMovies.adapter.MovieAdapter;
 import io.github.yhdesai.PopularMovies.adapter.ReviewAdapter;
 import io.github.yhdesai.PopularMovies.model.MovieReview;
 import io.github.yhdesai.PopularMovies.utils.JsonUtils;
@@ -29,7 +25,7 @@ public class ReviewActivity extends AppCompatActivity {
 
 
     ListView mReviewListView;
-    private ReviewAdapter mReviewAdapter;
+    ReviewAdapter mReviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +48,6 @@ public class ReviewActivity extends AppCompatActivity {
         @Override
         protected MovieReview[] doInBackground(String... strings) {
             if (!isOnline()) {
-                errorNetworkApi();
                 return null;
             }
 
@@ -64,7 +59,6 @@ public class ReviewActivity extends AppCompatActivity {
                 String reviewReponse = ReviewUrlUtils.getResponseFromHttpVideo(reviewUrl);
                 Log.d("trailer response", reviewReponse);
                 mReview = JsonUtils.parseJsonReview(reviewReponse);
-                Log.d("mTrailer", mReview.toString());
 
             } catch (Exception e) {
 
@@ -91,10 +85,6 @@ public class ReviewActivity extends AppCompatActivity {
                  */
 
 
-                Log.d("class#################", review.getClass().toString());
-
-
-                Log.d("review result", review.toString());
             } else {
                 Log.e("detail", "Problems with adapter");
             }
@@ -111,6 +101,4 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
 
-    private void errorNetworkApi() {
-    }
 }
