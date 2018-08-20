@@ -21,6 +21,7 @@ import io.github.yhdesai.PopularMovies.adapter.ReviewAdapter;
 import io.github.yhdesai.PopularMovies.model.MovieReview;
 import io.github.yhdesai.PopularMovies.utils.JsonUtils;
 import io.github.yhdesai.PopularMovies.utils.ReviewUrlUtils;
+
 //TODO redesign the item_review activity
 public class ReviewActivity extends AppCompatActivity {
 
@@ -34,12 +35,10 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
-       mReviewListView = findViewById(R.id.reviewListView);
+        mReviewListView = findViewById(R.id.reviewListView);
         new ReviewsFetchTask().execute(getIntent().getStringExtra("id"));
 
     }
-
-
 
 
     private class ReviewsFetchTask extends AsyncTask<String, Void, MovieReview[]> {
@@ -88,25 +87,11 @@ public class ReviewActivity extends AppCompatActivity {
 
 
 
-          /*      mReviewAdapter.add();
-*/
+                /*      mReviewAdapter.add();
+                 */
 
 
-
-             Log.d("class#################", review.getClass().toString());
-
-
-
-
-
-
-
-
-
-
-
-
-
+                Log.d("class#################", review.getClass().toString());
 
 
                 Log.d("review result", review.toString());

@@ -17,7 +17,9 @@
 package io.github.yhdesai.PopularMovies.bookmark;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,33 +60,54 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
 
     @Override
-    public void onBindViewHolder(TaskViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
 
         TaskEntry taskEntry = mTaskEntries.get(position);
-        String plot = taskEntry.getPlot();
-        String rating = taskEntry.getRating();
-        String title = taskEntry.getTitle();
-        String backgroundPoster = taskEntry.getBackdropPoster();
-        String moviePoster = taskEntry.getMoviePoster();
-        String id = taskEntry.getId();
-        String releaseDate = taskEntry.getReleaseDate();
-        /*String updatedAt = dateFormat.format(taskEntry.getUpdatedAt());
-         */
-        //Set values
-        holder.plot.setText(plot);
-        holder.rating.setText(rating);
-        holder.title.setText(title);
-        holder.backdropPoster.setText(backgroundPoster);
+        if (taskEntry != null) {
+            String plot = taskEntry.getPlot();
+            String rating = taskEntry.getRating();
+            String title = taskEntry.getTitle();
+            // String backgroundPoster = taskEntry.getBackdropPoster();
+            String moviePoster = taskEntry.getMoviePoster();
+            String id = taskEntry.getId();
+            String releaseDate = taskEntry.getReleaseDate();
+            /*String updatedAt = dat
+           eFormat.format(taskEntry.getUpdatedAt());
+             */
 
-        Picasso.with(mContext)
-                .load(Constant.URL_IMAGE_PATH.concat(moviePoster))
-                .into(holder.moviePoster);
 
-       /* holder.moviePoster.setImageURI(moviePoster);*/
+            Log.d("TaskEntry",
+                    "\n" + "\n" + "id: " + id + "\n" +
+                            "title: " + title + "\n" +
+                            "poster: " + moviePoster + "\n" +
+                            "plot: " + plot + "\n" +
+                            "rating: " + rating + "\n"/*+
+                            "date: "+releaseFinal+ "\n"+
+                            "poster: "+backdropPoster+"\n"*/
+            );
+            //Set values
+            if (plot != null) {
 
-        holder.id.setText(id);
-        holder.releastDate.setText(releaseDate);
-        /*holder.updatedAtView.setText(updatedAt);*/
+                holder.plot.setText(plot);
+            }
+            if (rating != null) {
+                holder.rating.setText(rating);
+            }
+            if (title != null) {
+                holder.title.setText(title);
+            }
+//        holder.backdropPoster.setText(backgroundPoster);
+
+            Picasso.with(mContext)
+                    .load(Constant.URL_IMAGE_PATH.concat(moviePoster))
+                    .into(holder.moviePoster);
+
+            /* holder.moviePoster.setImageURI(moviePoster);*/
+
+            if (releaseDate != null) {
+                holder.releastDate.setText(releaseDate);
+            }
+            /*holder.updatedAtView.setText(updatedAt);*/
 
        /* // Programmatically set the text and color for the priority TextView
         String priorityString = "" + rating; // converts int to String
@@ -93,6 +116,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         GradientDrawable priorityCircle = (GradientDrawable) holder.priorityView.getBackground();
        */ // Get the appropriate background color based on the priority
 
+        }
     }
 
     /*
@@ -152,7 +176,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
 
         TextView id;
-        TextView backdropPoster;
+        //   TextView backdropPoster;
 
 
         public TaskViewHolder(View itemView) {
