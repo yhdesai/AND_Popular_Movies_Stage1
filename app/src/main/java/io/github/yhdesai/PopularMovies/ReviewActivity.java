@@ -18,14 +18,11 @@ import io.github.yhdesai.PopularMovies.model.MovieReview;
 import io.github.yhdesai.PopularMovies.utils.JsonUtils;
 import io.github.yhdesai.PopularMovies.utils.ReviewUrlUtils;
 
-//TODO redesign the item_review activity
 public class ReviewActivity extends AppCompatActivity {
-
-    private MovieReview[] mReview = null;
-
 
     ListView mReviewListView;
     ReviewAdapter mReviewAdapter;
+    private MovieReview[] mReview = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +33,12 @@ public class ReviewActivity extends AppCompatActivity {
 
     }
 
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
 
     private class ReviewsFetchTask extends AsyncTask<String, Void, MovieReview[]> {
 
@@ -73,31 +76,16 @@ public class ReviewActivity extends AppCompatActivity {
             new ReviewsFetchTask().cancel(true);
             if (review != null) {
 
-                // Initialize message ListView and its adapter
-                //List<MovieReview> friendlyMessages = new ArrayList<>();
+
                 List<MovieReview> reviews = Arrays.asList(review);
                 mReviewAdapter = new ReviewAdapter(ReviewActivity.this, R.layout.item_review, reviews);
                 mReviewListView.setAdapter(mReviewAdapter);
-
-
-
-                /*      mReviewAdapter.add();
-                 */
-
 
             } else {
                 Log.e("detail", "Problems with adapter");
             }
         }
 
-    }
-
-
-    private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert cm != null;
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 

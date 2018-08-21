@@ -10,7 +10,6 @@ public class Constant {
     public static final String MOVIE_QUERY_API = "api_key";
     public static final String MOVIE_BASE_URL = "https://api.themoviedb.org/3/movie/";
 
-    public static final String MOVIE_TEMP_URL = "https://api.themoviedb.org/3/movie/299536-avengers-infinity-war/";
 
 
     public static final String RESULTS = "results";

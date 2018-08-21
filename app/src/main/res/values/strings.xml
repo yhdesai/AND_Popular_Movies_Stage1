@@ -12,11 +12,6 @@
     <string name="rating">Rating :</string>
     <string name="overview">Overview</string>
 
-    <!-- Strings for MainActivity -->
-
-
-    <!-- Strings for AddTaskActivity -->
-    <!-- This etaskEntrytask has a unicode character for "..." = "&#8230;" -->
 
     <string name="play_trailer">Play Trailer</string>
     <string name="reviews">Reviews</string>

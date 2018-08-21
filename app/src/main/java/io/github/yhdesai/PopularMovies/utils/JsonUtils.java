@@ -14,9 +14,9 @@ import static io.github.yhdesai.PopularMovies.Constant.MOVIE_PLOT;
 import static io.github.yhdesai.PopularMovies.Constant.MOVIE_POSTER;
 import static io.github.yhdesai.PopularMovies.Constant.MOVIE_RATING;
 import static io.github.yhdesai.PopularMovies.Constant.MOVIE_RELEASE_DATE;
-import static io.github.yhdesai.PopularMovies.Constant.RESULTS;
 import static io.github.yhdesai.PopularMovies.Constant.MOVIE_TITLE;
 import static io.github.yhdesai.PopularMovies.Constant.Movie_Backdrop;
+import static io.github.yhdesai.PopularMovies.Constant.RESULTS;
 import static io.github.yhdesai.PopularMovies.Constant.REVIEW_AUTHOR;
 import static io.github.yhdesai.PopularMovies.Constant.REVIEW_CONTENT;
 import static io.github.yhdesai.PopularMovies.Constant.REVIEW_ID;
@@ -56,8 +56,6 @@ public class JsonUtils {
         Log.d("jsondata", jsonVideosData);
         JSONObject jsonRoot = new JSONObject(jsonVideosData);
         JSONArray jsonArrayResult = jsonRoot.getJSONArray("results");
-        MovieTrailer result = new MovieTrailer();
-        //for (int i = 0; i < jsonArrayResult.length(); i++) {
         MovieTrailer movieVideo = new MovieTrailer();
         movieVideo.setvID(jsonArrayResult.getJSONObject(0).optString(VIDEO_ID));
         movieVideo.setvISO639(jsonArrayResult.getJSONObject(0).optString(VIDEO_ISO_1));

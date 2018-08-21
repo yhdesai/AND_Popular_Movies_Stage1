@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -28,8 +27,6 @@ import io.github.yhdesai.PopularMovies.bookmark.AppExecutors;
 import io.github.yhdesai.PopularMovies.data.AppDatabase;
 import io.github.yhdesai.PopularMovies.data.BookmarkEntry;
 import io.github.yhdesai.PopularMovies.model.AddBookmarkViewModel;
-import io.github.yhdesai.PopularMovies.model.Movie;
-import io.github.yhdesai.PopularMovies.model.MovieReview;
 import io.github.yhdesai.PopularMovies.model.MovieTrailer;
 import io.github.yhdesai.PopularMovies.utils.JsonUtils;
 import io.github.yhdesai.PopularMovies.utils.VideoUrlUtils;
@@ -42,11 +39,8 @@ public class DetailActivity extends AppCompatActivity {
     private static final String TAG = DetailActivity.class.getSimpleName();
     String releaseDate;
     EditText mEditText;
-    RadioGroup mRadioGroup;
     String mBookmarkId = DEFAULT_TASK_ID;
-    private MovieReview[] mReview = null;
     private MovieTrailer mTrailer = null;
-    private Movie movie;
     private String id;
     private String title;
     private String moviePoster;
@@ -55,7 +49,6 @@ public class DetailActivity extends AppCompatActivity {
     private String backdropPoster;
     private BookmarkEntry bookmark;
     private AppDatabase mDb;
-    private AppDatabase mDbs;
     private String releaseFinal;
 
     public static void watchYoutubeVideo(Context context, String id) {
@@ -73,7 +66,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        initViews();
+
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         AddBookmarkViewModelFactory factory = new AddBookmarkViewModelFactory(mDb, mBookmarkId);
@@ -122,19 +115,11 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         mEditText.setText(task.getPlot());
-        ((RadioGroup) findViewById(R.id.radioGroup)).check(R.id.radButton1);
     }
 
     public void trailer(View view) {
 
         new TrailerFetchTask().execute(getIntent().getStringExtra("id"));
-
-    }
-
-    private void initViews() {
-        mEditText = findViewById(R.id.editTextTaskDescription);
-        mRadioGroup = findViewById(R.id.radioGroup);
-
 
     }
 
@@ -157,7 +142,6 @@ public class DetailActivity extends AppCompatActivity {
         );
 
         bookmark = new BookmarkEntry(id, title, moviePoster, plot, rating, releaseFinal, backdropPoster);
-        // mDb.taskDao().insertBookmark(task);
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -170,7 +154,7 @@ public class DetailActivity extends AppCompatActivity {
                     bookmark.setId(mBookmarkId);
                     mDb.bookmarkDao().updateBookmark(bookmark);
                 }
-                /* finish();*/
+
             }
         });
         //Need help here for this todo, before adding the bookmark, it needs to check if it already exists
